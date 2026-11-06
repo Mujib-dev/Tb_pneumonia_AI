@@ -1,0 +1,87 @@
+services:
+  db:
+    image: postgres:13
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../database/migrations:/docker-entrypoint-initdb.d:ro
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: tb_pneumonia_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tb_pneumonia_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: ../docker/backend.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/tb_pneumonia_db
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY must be set}
+      REGISTRATION_KEYS: ${REGISTRATION_KEYS:?REGISTRATION_KEYS must be set}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-10080}
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../docker/frontend.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  # DICOM C-STORE gateway. Runs as its own process and its own container so a
+  # fault in the network listener cannot take down the HTTP API, and so the
+  # DICOM port can be firewalled independently of the web API.
+  #
+  # NOT YET VERIFIED against a physical X-ray machine: set DICOM_ENABLED=true
+  # only after completing the on-site checks in docs/DICOM_GATEWAY_SETUP.md.
+  dicom-gateway:
+    build:
+      context: ../backend
+      dockerfile: ../docker/backend.Dockerfile
+    restart: unless-stopped
+    command: ["python", "-m", "app.dicom_server"]
+    ports:
+      - "${DICOM_PORT:-11112}:${DICOM_PORT:-11112}"
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/tb_pneumonia_db
+      SECRET_KEY: ${SECRET_KEY:?SECRET_KEY must be set}
+      REGISTRATION_KEYS: ${REGISTRATION_KEYS:?REGISTRATION_KEYS must be set}
+      DICOM_ENABLED: ${DICOM_ENABLED:-false}
+      DICOM_LOCAL_AE_TITLE: ${DICOM_LOCAL_AE_TITLE:-PULMOAI}
+      DICOM_BIND_ADDRESS: ${DICOM_BIND_ADDRESS:-0.0.0.0}
+      DICOM_PORT: ${DICOM_PORT:-11112}
+      # Comma-separated allowlists. Leaving these empty accepts any caller,
+      # which is only acceptable on an isolated, trusted hospital VLAN.
+      DICOM_ALLOWED_REMOTE_AE_TITLES: ${DICOM_ALLOWED_REMOTE_AE_TITLES:-}
+      DICOM_ALLOWED_REMOTE_IPS: ${DICOM_ALLOWED_REMOTE_IPS:-}
+      DICOM_REJECT_NON_CXR: ${DICOM_REJECT_NON_CXR:-true}
+      DICOM_ANALYSE_ON_INGEST: ${DICOM_ANALYSE_ON_INGEST:-true}
+      DICOM_LOG_LEVEL: ${DICOM_LOG_LEVEL:-INFO}
+    volumes:
+      # The same volume as the API, so the rendered PNG and the Grad-CAM overlay
+      # the gateway writes are visible to the authenticated media endpoint.
+      - uploads_data:/app/uploads
+      - dicom_logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  uploads_data:
+  dicom_logs:

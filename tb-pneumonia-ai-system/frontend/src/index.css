@@ -1,0 +1,319 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  color: #0f172a;
+  background-color: #f8fafc;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dark {
+  color-scheme: dark;
+  color: #ffffff;
+  background-color: #0f172a;
+}
+
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+}
+
+.dark .glass {
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 25px -2px rgba(0, 0, 0, 0.35);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #60a5fa 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Premium Rotate Hover Animation for X Close Buttons globally */
+.lucide-x {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+button:hover .lucide-x,
+a:hover .lucide-x,
+.group:hover .lucide-x {
+  transform: rotate(90deg);
+}
+
+/* Premium SweetAlert2 Custom Layout & Easing Overrides */
+.swal2-popup.swal2-modal {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 1.5rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1) !important;
+  padding: 2rem !important;
+}
+
+.dark .swal2-popup.swal2-modal {
+  background: #0f172a !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+
+.swal2-popup .swal2-title {
+  color: #0f172a !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.025em !important;
+  font-family: inherit !important;
+}
+
+.dark .swal2-popup .swal2-title {
+  color: #ffffff !important;
+}
+
+.swal2-popup .swal2-html-container {
+  color: #64748b !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  margin-top: 0.75rem !important;
+}
+
+.dark .swal2-popup .swal2-html-container {
+  color: #94a3b8 !important;
+}
+
+.swal2-popup .swal2-input {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 0.75rem !important;
+  color: #0f172a !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease-in-out !important;
+  height: 2.75rem !important;
+  padding: 0 1rem !important;
+  margin-top: 1rem !important;
+  font-size: 0.875rem !important;
+}
+
+.dark .swal2-popup .swal2-input {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.swal2-popup .swal2-input:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: none !important;
+}
+
+.swal2-popup .swal2-actions {
+  gap: 0.5rem !important;
+  margin-top: 1.5rem !important;
+}
+
+.swal2-popup .swal2-styled.swal2-confirm {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border-radius: 0.75rem !important;
+  font-weight: 900 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 0.65rem 1.5rem !important;
+  transition: all 0.2s ease-in-out !important;
+  box-shadow: none !important;
+}
+
+.swal2-popup .swal2-styled.swal2-confirm:hover {
+  background-color: #1d4ed8 !important;
+}
+
+.swal2-popup .swal2-styled.swal2-cancel {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  color: #4b5563 !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 0.75rem !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 0.65rem 1.5rem !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.dark .swal2-popup .swal2-styled.swal2-cancel {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #d1d5db !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.swal2-popup .swal2-styled.swal2-cancel:hover {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  color: #1f2937 !important;
+}
+
+.dark .swal2-popup .swal2-styled.swal2-cancel:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+/* Custom slim scrollbar for dual-pane independent scrolling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.6);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+}
+.dark .custom-scrollbar {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Clinical Print Media & PDF Clean Sheet Formatting
+───────────────────────────────────────────────────────────── */
+.pdf-clean-sheet {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.pdf-clean-sheet * {
+  border-color: #e2e8f0 !important;
+}
+
+.pdf-clean-sheet .dark\:text-white {
+  color: #0f172a !important;
+}
+
+.pdf-clean-sheet .dark\:text-slate-300,
+.pdf-clean-sheet .dark\:text-slate-400 {
+  color: #334155 !important;
+}
+
+.pdf-clean-sheet .dark\:bg-slate-800\/50,
+.pdf-clean-sheet .dark\:bg-slate-800\/40,
+.pdf-clean-sheet .dark\:bg-slate-900\/60,
+.pdf-clean-sheet .dark\:bg-slate-900 {
+  background-color: #f8fafc !important;
+}
+
+@media print {
+  nav, footer, .no-print, .swal2-container, header button, .print\:hidden {
+    display: none !important;
+  }
+
+  body, html, #root, main {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Dark mode overrides for paper printing */
+  .dark, [class*="dark:"] {
+    color-scheme: light !important;
+  }
+
+  .dark\:text-white, [class*="dark:text-white"] {
+    color: #0f172a !important;
+  }
+
+  .dark\:text-slate-300, .dark\:text-slate-400,
+  [class*="dark:text-slate-300"], [class*="dark:text-slate-400"] {
+    color: #334155 !important;
+  }
+
+  .dark\:bg-slate-800\/50, .dark\:bg-slate-800\/40,
+  .dark\:bg-slate-900\/60, .dark\:bg-slate-900,
+  [class*="dark:bg-slate-800"], [class*="dark:bg-slate-900"] {
+    background-color: #f8fafc !important;
+  }
+
+  .dark\:border-slate-700, .dark\:border-slate-800, [class*="dark:border-slate"] {
+    border-color: #e2e8f0 !important;
+  }
+
+  #report-modal-content {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    display: block !important;
+    width: 100% !important;
+  }
+
+  /* Prevent awkward paper cuts across boxes */
+  .break-inside-avoid, [class*="break-inside-avoid"] {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Print image scaling */
+  img {
+    max-height: 240px;
+    object-contain: contain !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 6mm 8mm;
+  }
+}
+
